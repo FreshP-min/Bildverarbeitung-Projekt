@@ -27,9 +27,12 @@ class CrowdCounter(nn.Module):
         self.CCN = net()
         if len(gpus)>1:
             self.CCN = torch.nn.DataParallel(self.CCN, device_ids=gpus).cuda()
-        else:
+            self.loss_mse_fn = nn.MSELoss().cuda()
+        elif len(gpus)==1:
             self.CCN=self.CCN.cuda()
-        self.loss_mse_fn = nn.MSELoss().cuda()
+            self.loss_mse_fn = nn.MSELoss().cuda()
+        else:
+            self.loss_mse_fn = nn.MSELoss()
         
     @property
     def loss(self):

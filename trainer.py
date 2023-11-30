@@ -22,7 +22,11 @@ class Trainer():
         self.pwd = pwd
 
         self.net_name = cfg.NET
-        self.net = CrowdCounter(cfg.GPU_ID,self.net_name).cuda()
+        if cfg.EXISTS_GPU:
+            self.net = CrowdCounter(cfg.GPU_ID, self.net_name).cuda()
+        else:
+            self.net = CrowdCounter(cfg.GPU_ID, self.net_name)
+
         self.optimizer = optim.Adam(self.net.CCN.parameters(), lr=cfg.LR, weight_decay=1e-4)
         # self.optimizer = optim.SGD(self.net.parameters(), cfg.LR, momentum=0.95,weight_decay=5e-4)
         self.scheduler = StepLR(self.optimizer, step_size=cfg.NUM_EPOCH_LR_DECAY, gamma=cfg.LR_DECAY)          
@@ -86,10 +90,15 @@ class Trainer():
         for i, data in enumerate(self.train_loader, 0):
             self.timer['iter time'].tic()
             img, gt_map = data
-            img = Variable(img).cuda()
-            gt_map = Variable(gt_map).cuda()
+            if cfg.EXISTS_GPU:
+                img = Variable(img).cuda()
+                gt_map = Variable(gt_map).cuda()
+            else:
+                img = Variable(img)
+                gt_map = Variable(gt_map)
 
             self.optimizer.zero_grad()
+            # SELF.NET.FORWARD instead of SELF.NET() ???
             pred_map = self.net(img, gt_map)
             loss = self.net.loss
             loss.backward()
@@ -116,8 +125,12 @@ class Trainer():
             img, gt_map = data
 
             with torch.no_grad():
-                img = Variable(img).cuda()
-                gt_map = Variable(gt_map).cuda()
+                if cfg.EXISTS_GPU:
+                    img = Variable(img).cuda()
+                    gt_map = Variable(gt_map).cuda()
+                else:
+                    img = Variable(img)
+                    gt_map = Variable(gt_map)
 
                 pred_map = self.net.forward(img,gt_map)
 
@@ -170,8 +183,12 @@ class Trainer():
                 img, gt_map = data
 
                 with torch.no_grad():
-                    img = Variable(img).cuda()
-                    gt_map = Variable(gt_map).cuda()
+                    if cfg.EXISTS_GPU:
+                        img = Variable(img).cuda()
+                        gt_map = Variable(gt_map).cuda()
+                    else:
+                        img = Variable(img)
+                        gt_map = Variable(gt_map)
 
                     pred_map = self.net.forward(img,gt_map)
 
@@ -223,9 +240,12 @@ class Trainer():
             img, gt_map, attributes_pt = data
 
             with torch.no_grad():
-                img = Variable(img).cuda()
-                gt_map = Variable(gt_map).cuda()
-
+                if cfg.EXISTS_GPU:
+                    img = Variable(img).cuda()
+                    gt_map = Variable(gt_map).cuda()
+                else:
+                    img = Variable(img)
+                    gt_map = Variable(gt_map)
 
                 pred_map = self.net.forward(img,gt_map)
 
