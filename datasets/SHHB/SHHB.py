@@ -13,10 +13,12 @@ from config import cfg
 
 class SHHB(data.Dataset):
     def __init__(self, data_path, mode, main_transform=None, img_transform=None, gt_transform=None):
-        self.img_path = data_path + '/img'
+        data_path = os.path.normpath(os.getcwd() + data_path)
+        self.img_path = data_path + '\\img'
         self.gt_path = data_path + '/den'
         print(self.img_path)
         print(os.path.dirname(os.path.realpath(__file__)))
+        print(os.listdir(self.img_path))
         self.data_files = [filename for filename in os.listdir(self.img_path) \
                            if os.path.isfile(os.path.join(self.img_path,filename))]
         self.num_samples = len(self.data_files) 

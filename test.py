@@ -15,8 +15,10 @@ from misc.utils import *
 import scipy.io as sio
 from PIL import Image, ImageOps
 
-#torch.cuda.set_device(0)
+torch.cuda.set_device(0)
 torch.backends.cudnn.benchmark = True
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 exp_name = '../SHHB_results'
 if not os.path.exists(exp_name):
@@ -39,9 +41,9 @@ restore = standard_transforms.Compose([
 ])
 pil_to_tensor = standard_transforms.ToTensor()
 
-dataRoot = 'datasets/ProcessedData/shanghaitech_part_B/test_after_training'
+dataRoot = 'datasets/ProcessedData/shanghaitech_part_B/test'
 
-model_path = 'exp/11-30_14-22_SHHB_Res50_1e-05/all_ep_1_mae_55.7_mse_61.3.pth'
+model_path = 'exp/01-10_15-29_SHHB_MCNN_1e-05/all_ep_1_mae_71.0_mse_96.0.pth'
 
 
 def main():
@@ -53,7 +55,7 @@ def main():
 def test(file_list, model_path):
     net = CrowdCounter(cfg.GPU_ID, cfg.NET)
     net.load_state_dict(torch.load(model_path))
-    #  net.cuda()
+    net.cuda()
     net.eval()
 
     f1 = plt.figure(1)
@@ -80,8 +82,8 @@ def test(file_list, model_path):
 
         gt = np.sum(den)
         with torch.no_grad():
-            #img = Variable(img[None, :, :, :]).cuda()
-            img = Variable(img[None, :, :, :])
+            img = Variable(img[None, :, :, :]).cuda()
+            #img = Variable(img[None, :, :, :])
             pred_map = net.test_forward(img)
 
         sio.savemat(exp_name + '/pred/' + filename_no_ext + '.mat',
