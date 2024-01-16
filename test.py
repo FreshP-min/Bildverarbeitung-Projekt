@@ -158,12 +158,12 @@ def test(file_list, model_path):
 
         # sio.savemat(exp_name+'/'+filename_no_ext+'_diff.mat',{'ProcessedData':diff})
 
-def apply_counting(img):
+def apply_counting(img, model):
     net = CrowdCounter(cfg.GPU_ID, cfg.NET)
     if (cfg.EXISTS_GPU):
-        net.load_state_dict(torch.load(model_path))
+        net.load_state_dict(torch.load(model))
     else:
-        net.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+        net.load_state_dict(torch.load(model, map_location=torch.device('cpu')))
     #  net.cuda()
     net.eval()
 
@@ -180,6 +180,7 @@ def apply_counting(img):
     pred_map = pred_map.cpu().data.numpy()[0, 0, :, :]
 
     pred = np.sum(pred_map) / 100.0
+    pred = round(pred, 2)
     print(f"prediction: {pred}")
     pred_map = pred_map / np.max(pred_map + 1e-20)
     plt.imshow(pred_map)
