@@ -5,7 +5,7 @@ import os
 import random
 import torch
 from torch.autograd import Variable
-import torchvision.transforms as standard_transforms
+from torchvision.transforms import functional
 import misc.transforms as own_transforms
 import pandas as pd
 
@@ -158,6 +158,37 @@ def test(file_list, model_path):
 
         # sio.savemat(exp_name+'/'+filename_no_ext+'_diff.mat',{'ProcessedData':diff})
 
+def apply_counting(img):
+    net = CrowdCounter(cfg.GPU_ID, cfg.NET)
+    if (cfg.EXISTS_GPU):
+        net.load_state_dict(torch.load(model_path))
+    else:
+        net.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+    #  net.cuda()
+    net.eval()
+
+    if img.mode == 'L':
+        img = img.convert('RGB')
+
+    img = img_transform(img)
+
+    with torch.no_grad():
+        #img = Variable(img[None, :, :, :]).cuda()
+        img = Variable(img[None, :, :, :])
+        pred_map = net.test_forward(img)
+
+    pred_map = pred_map.cpu().data.numpy()[0, 0, :, :]
+
+    pred = np.sum(pred_map) / 100.0
+    print(f"prediction: {pred}")
+    pred_map = pred_map / np.max(pred_map + 1e-20)
+    plt.imshow(pred_map)
+ #   plt.show()
+    pred_map_pil = Image.fromarray(np.uint8(matplotlib.cm.gist_earth(pred_map) * 255))
+
+    return pred_map_pil, pred
 
 if __name__ == '__main__':
-    main()
+    img = Image.open("datasets/ProcessedData/shanghaitech_part_B/test_after_training/img/14.jpg")
+    apply_counting(img)
+    #main()
