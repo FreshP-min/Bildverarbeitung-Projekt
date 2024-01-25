@@ -15,7 +15,7 @@ from misc.utils import *
 import scipy.io as sio
 from PIL import Image, ImageOps
 
-#torch.cuda.set_device(0)
+torch.cuda.set_device(0)
 torch.backends.cudnn.benchmark = True
 with_gt = False
 
@@ -164,7 +164,7 @@ def apply_counting(img, model):
         net.load_state_dict(torch.load(model))
     else:
         net.load_state_dict(torch.load(model, map_location=torch.device('cpu')))
-    #  net.cuda()
+    net.cuda()
     net.eval()
 
     if img.mode == 'L':

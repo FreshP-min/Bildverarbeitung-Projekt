@@ -6,10 +6,10 @@ from test import apply_counting
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("green")
 
-model_path_1 = 'exp/training_philipp/all_ep_1_mae_28.1_mse_40.8.pth'
-model_path_2 = 'exp/training_philipp/all_ep_1_mae_28.1_mse_40.8.pth'
-model_path_3 = 'exp/training_philipp/all_ep_1_mae_28.1_mse_40.8.pth'
-model_path_4 = 'exp/training_philipp/all_ep_1_mae_28.1_mse_40.8.pth'
+model_path_1 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
+model_path_2 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
+model_path_3 = 'Trained_models/01-24_14-13_SHHB_Res50_1e-05/best_model.pth'
+model_path_4 = 'Trained_models/01-24_14-13_SHHB_Res50_1e-05/best_model.pth'
 
 class App(ctk.CTk):
     def __init__(self):
