@@ -118,17 +118,17 @@ class App(ctk.CTk):
         self.image_2.configure(light_image=img_2, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_2.configure(image=self.image_2)
-        self.text_pred_2.configure(text=f"prediction Res50 - SHHB: \n{pred_1} people")
+        self.text_pred_2.configure(text=f"prediction Res50 - SHHB: \n{pred_2} people")
 
         self.image_3.configure(light_image=img_3, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_3.configure(image=self.image_3)
-        self.text_pred_3.configure(text=f"prediction model 3: \n{pred_1} people")
+        self.text_pred_3.configure(text=f"prediction model 3: \n{pred_3} people")
 
         self.image_4.configure(light_image=img_4, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_4.configure(image=self.image_4)
-        self.text_pred_4.configure(text=f"prediction model 4: \n{pred_1} people")
+        self.text_pred_4.configure(text=f"prediction model 4: \n{pred_4} people")
 
 
 
