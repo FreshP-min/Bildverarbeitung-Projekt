@@ -20,7 +20,7 @@ if __C.DATASET == 'GCC':# only for GCC
 	__C.VAL_MODE = cfg_data.VAL_MODE 
 
 
-__C.NET = 'AlexNet' # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+__C.NET = 'Res50' # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
 
 __C.PRE_GCC = False # use the pretrained model on GCC dataset
 __C.PRE_GCC_MODEL = 'path to model' # path to model
@@ -36,10 +36,10 @@ else:
 
 # learning rate settings
 __C.LR = 1e-5 # learning rate
-__C.LR_DECAY = 0.995 # decay rate
-__C.LR_DECAY_START = -1 # when training epoch is more than it, the learning rate will be begin to decay
-__C.NUM_EPOCH_LR_DECAY = 1 # decay frequency
-__C.MAX_EPOCH = 10
+__C.LR_DECAY = 0.9 # decay rate
+__C.LR_DECAY_START = 50 # when training epoch is more than it, the learning rate will be begin to decay
+__C.NUM_EPOCH_LR_DECAY = 50 # decay frequency
+__C.MAX_EPOCH = 500
 
 # multi-task learning weights, no use for single model, such as MCNN, VGG, VGG_DECODER, Res50, CSRNet, and so on
 
@@ -62,7 +62,7 @@ if __C.DATASET == 'UCF50':
 if __C.DATASET == 'GCC':
 	__C.EXP_NAME += '_' + __C.VAL_MODE	
 
-__C.EXP_PATH = './exp' # the path of logs, checkpoints, and current codes
+__C.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp' # the path of logs, checkpoints, and current codes
 
 
 #------------------------------VAL------------------------

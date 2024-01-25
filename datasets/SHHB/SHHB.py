@@ -13,8 +13,7 @@ from config import cfg
 
 class SHHB(data.Dataset):
     def __init__(self, data_path, mode, main_transform=None, img_transform=None, gt_transform=None):
-        data_path = os.path.normpath(os.getcwd() + data_path)
-        self.img_path = data_path + '\\img'
+        self.img_path = data_path + '/img'
         self.gt_path = data_path + '/den'
         print(self.img_path)
         print(os.path.dirname(os.path.realpath(__file__)))
@@ -30,9 +29,9 @@ class SHHB(data.Dataset):
         fname = self.data_files[index]
         img, den = self.read_image_and_gt(fname)      
         if self.main_transform is not None:
-            img, den = self.main_transform(img,den) 
+            img, den = self.main_transform(img,den)
         if self.img_transform is not None:
-            img = self.img_transform(img)         
+            img = self.img_transform(img)
         if self.gt_transform is not None:
             den = self.gt_transform(den)               
         return img, den
@@ -45,12 +44,10 @@ class SHHB(data.Dataset):
         if img.mode == 'L':
             img = img.convert('RGB')
 
-        # den = sio.loadmat(os.path.join(self.gt_path,os.path.splitext(fname)[0] + '.mat'))
-        # den = den['map']
-        den = pd.read_csv(os.path.join(self.gt_path,os.path.splitext(fname)[0] + '.csv'), sep=',',header=None).values
-        
-        den = den.astype(np.float32, copy=False)    
-        den = Image.fromarray(den)  
+        den = np.loadtxt(os.path.join(self.gt_path,os.path.splitext(fname)[0] + '.csv'), delimiter = ",", dtype = float)
+
+        den = den.astype(np.float32, copy=False)
+        den = Image.fromarray(den)
         return img, den    
 
     def get_num_samples(self):

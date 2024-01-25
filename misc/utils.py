@@ -211,7 +211,7 @@ def update_model(net,optimizer,scheduler,epoch,i_tb,exp_path,exp_name,scores,tra
 
     mae, mse, loss = scores
 
-    snapshot_name = 'all_ep_%d_mae_%.1f_mse_%.1f' % (epoch + 1, mae, mse)
+    snapshot_name = "best_model"#'all_ep_%d_mae_%.1f_mse_%.1f' % (epoch + 1, mae, mse)
 
     if mae < train_record['best_mae'] or mse < train_record['best_mse']:   
         train_record['best_model_name'] = snapshot_name
@@ -230,6 +230,9 @@ def update_model(net,optimizer,scheduler,epoch,i_tb,exp_path,exp_name,scores,tra
                     'exp_name':exp_name}
 
     torch.save(latest_state,os.path.join(exp_path, exp_name, 'latest_state.pth'))
+
+    with open(os.path.join(exp_path, exp_name, "epoch_log.txt"), "a+") as file:
+        file.write(f"\nEpoch = {epoch}, mae = {mae}, mse = {mse} & LR = {optimizer.param_groups[0]['lr']}\n")
 
     return train_record
 

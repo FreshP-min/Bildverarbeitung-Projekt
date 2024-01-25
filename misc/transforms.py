@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image, ImageOps, ImageFilter
 from config import cfg
 import torch
+import torchvision.transforms as transforms
 # ===============================img tranforms============================
 
 class Compose(object):
@@ -102,7 +103,7 @@ class Scale(object):
     def __call__(self, img, mask):
         if img.size != mask.size:
             print( img.size )
-            print( mask.size )          
+            print( mask.size )
         assert img.size == mask.size
         w, h = img.size
         if (w <= h and w == self.size) or (h <= w and h == self.size):
@@ -156,3 +157,14 @@ class GTScaleDown(object):
         tmp = np.array(img.resize((w//self.factor, h//self.factor), Image.BICUBIC))*self.factor*self.factor
         img = Image.fromarray(tmp)
         return img
+
+class ImageManipulations(object):
+    def __call__(self, img):
+        augmentation = [
+            #transforms.ToPILImage(),
+            transforms.RandomGrayscale(p=0.2),
+            transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
+            transforms.ToTensor(),
+        ]
+        augmentation = transforms.Compose(augmentation)
+        return augmentation(img)
