@@ -9,16 +9,7 @@ cfg = __C
 
 #------------------------------TRAIN------------------------
 __C.SEED = 3035 # random seed,  for reproduction
-__C.DATASET = 'SHHB' # dataset selection: GCC, SHHA, SHHB, UCF50, QNRF, WE, Mall, UCSD
-
-if __C.DATASET == 'UCF50':# only for UCF50
-	from datasets.UCF50.setting import cfg_data
-	__C.VAL_INDEX = cfg_data.VAL_INDEX 
-
-if __C.DATASET == 'GCC':# only for GCC
-	from datasets.GCC.setting import cfg_data
-	__C.VAL_MODE = cfg_data.VAL_MODE 
-
+__C.DATASET = 'SHHB' # dataset selection: SHHA, SHHB
 
 __C.NET = 'Res50' # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
 
@@ -55,12 +46,6 @@ __C.EXP_NAME = now \
 			 + '_' + __C.DATASET \
              + '_' + __C.NET \
              + '_' + str(__C.LR)
-
-if __C.DATASET == 'UCF50':
-	__C.EXP_NAME += '_' + str(__C.VAL_INDEX)	
-
-if __C.DATASET == 'GCC':
-	__C.EXP_NAME += '_' + __C.VAL_MODE	
 
 __C.EXP_PATH = './exp' # the path of logs, checkpoints, and current codes
 
