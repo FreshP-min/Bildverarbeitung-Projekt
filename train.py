@@ -25,7 +25,10 @@ if data_mode == 'SHHA':
     from datasets.SHHA.setting import cfg_data 
 elif data_mode == 'SHHB':
     from datasets.SHHB.loading_data import loading_data 
-    from datasets.SHHB.setting import cfg_data 
+    from datasets.SHHB.setting import cfg_data
+elif data_mode == 'SHHM':
+    from datasets.SHHM.loading_data import loading_data
+    from datasets.SHHM.setting import cfg_data
 elif data_mode == 'QNRF':
     from datasets.QNRF.loading_data import loading_data 
     from datasets.QNRF.setting import cfg_data 
