@@ -1,65 +1,49 @@
 import os
-from easydict import EasyDict as edict
 import time
 import torch
 
 # init
-__C = edict()
-cfg = __C
+class Config:
+    def __init__(self):
+        # ------------------------------TRAIN------------------------
+        self.SEED = 3035  # random seed, for reproduction
+        self.DATASET = 'SHHB'  # dataset selection: SHHA, SHHB, SHHM
+        self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+        self.PRE_GCC = False  # use the pretrained model on GCC dataset
+        self.PRE_GCC_MODEL = 'path to model'  # path to model
+        self.RESUME = False  # continue training
+        self.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth'
+        self.EXISTS_GPU = True
+        self.GPU_ID = [0] if self.EXISTS_GPU else []  # single gpu: [0], [1] ...; multi gpus: [0,1]
 
-#------------------------------TRAIN------------------------
-__C.SEED = 3035 # random seed,  for reproduction
+        # learning rate settings
+        self.LR = 1e-5  # learning rate
+        self.LR_DECAY = 0.9  # decay rate
+        self.LR_DECAY_START = 50  # when training epoch is more than it, the learning rate will begin to decay
+        self.NUM_EPOCH_LR_DECAY = 50  # decay frequency
+        self.MAX_EPOCH = 500
 
-__C.DATASET = 'SHHB' # dataset selection: SHHA, SHHB, SHHM
+        # multi-task learning weights, no use for single model
+        self.LAMBDA_1 = 1e-4  # SANet:0.001 CMTL 0.0001
 
-__C.NET = 'Res50' # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+        # print
+        self.PRINT_FREQ = 10
 
-__C.PRE_GCC = False # use the pretrained model on GCC dataset
-__C.PRE_GCC_MODEL = 'path to model' # path to model
+        now = time.strftime("%m-%d_%H-%M", time.localtime())
 
-__C.RESUME = False # contine training
-__C.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth' #
+        self.EXP_NAME = now \
+                        + '_' + self.DATASET \
+                        + '_' + self.NET \
+                        + '_' + str(self.LR)
 
-__C.EXISTS_GPU = True
-if __C.EXISTS_GPU:
-	__C.GPU_ID = [0] # sigle gpu: [0], [1] ...; multi gpus: [0,1]
-else:
-	__C.GPU_ID = []
+        self.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp'  # the path of logs, checkpoints, and current codes
 
-# learning rate settings
-__C.LR = 1e-5 # learning rate
-__C.LR_DECAY = 0.9 # decay rate
-__C.LR_DECAY_START = 50 # when training epoch is more than it, the learning rate will be begin to decay
-__C.NUM_EPOCH_LR_DECAY = 50 # decay frequency
-__C.MAX_EPOCH = 500
+        # ------------------------------VAL------------------------
+        self.VAL_DENSE_START = 50
+        self.VAL_FREQ = 10  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
 
-# multi-task learning weights, no use for single model, such as MCNN, VGG, VGG_DECODER, Res50, CSRNet, and so on
+        # ------------------------------VIS------------------------
+        self.VISIBLE_NUM_IMGS = 1  # must be 1 for training images with different sizes
 
-__C.LAMBDA_1 = 1e-4# SANet:0.001 CMTL 0.0001
-
-
-# print 
-__C.PRINT_FREQ = 10
-
-now = time.strftime("%m-%d_%H-%M", time.localtime())
-
-__C.EXP_NAME = now \
-			 + '_' + __C.DATASET \
-             + '_' + __C.NET \
-             + '_' + str(__C.LR)
-
-__C.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp' # the path of logs, checkpoints, and current codes
-
-
-#------------------------------VAL------------------------
-__C.VAL_DENSE_START = 50
-__C.VAL_FREQ = 10 # Before __C.VAL_DENSE_START epoches, the freq is set as __C.VAL_FREQ
-
-#------------------------------VIS------------------------
-__C.VISIBLE_NUM_IMGS = 1 #  must be 1 for training images with the different sizes
-
-
-
-#================================================================================
-#================================================================================
-#================================================================================  
+# Create an instance of the Config class
+cfg = Config()

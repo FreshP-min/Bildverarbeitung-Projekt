@@ -75,14 +75,8 @@ class Trainer():
             # validation
             if epoch%cfg.VAL_FREQ==0 or epoch>cfg.VAL_DENSE_START:
                 self.timer['val time'].tic()
-                if self.data_mode in ['SHHA', 'SHHB', 'SHHM', 'QNRF', 'UCF50']:
+                if self.data_mode in ['SHHA', 'SHHB', 'QNRF', 'UCF50']:
                     self.validate_V1()
-                elif self.data_mode is 'WE':
-                    self.validate_V2()
-                elif self.data_mode is 'GCC':
-                    self.validate_V3()
-                else:
-                    raise Exception('There was no validation method defined')
                 self.timer['val time'].toc(average=False)
                 print( 'val time: {:.2f}s'.format(self.timer['val time'].diff) )
 
