@@ -9,7 +9,8 @@ cfg = __C
 
 #------------------------------TRAIN------------------------
 __C.SEED = 3035 # random seed,  for reproduction
-__C.DATASET = 'SHHB' # dataset selection: SHHA, SHHB
+
+__C.DATASET = 'SHHB' # dataset selection: SHHA, SHHB, SHHM
 
 __C.NET = 'Res50' # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
 
@@ -19,18 +20,18 @@ __C.PRE_GCC_MODEL = 'path to model' # path to model
 __C.RESUME = False # contine training
 __C.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth' #
 
-__C.EXISTS_GPU = False
+__C.EXISTS_GPU = True
 if __C.EXISTS_GPU:
-	__C.GPU_ID = [0,1] # sigle gpu: [0], [1] ...; multi gpus: [0,1]
+	__C.GPU_ID = [0] # sigle gpu: [0], [1] ...; multi gpus: [0,1]
 else:
 	__C.GPU_ID = []
 
 # learning rate settings
 __C.LR = 1e-5 # learning rate
-__C.LR_DECAY = 0.995 # decay rate
-__C.LR_DECAY_START = -1 # when training epoch is more than it, the learning rate will be begin to decay
-__C.NUM_EPOCH_LR_DECAY = 1 # decay frequency
-__C.MAX_EPOCH = 1
+__C.LR_DECAY = 0.9 # decay rate
+__C.LR_DECAY_START = 50 # when training epoch is more than it, the learning rate will be begin to decay
+__C.NUM_EPOCH_LR_DECAY = 50 # decay frequency
+__C.MAX_EPOCH = 500
 
 # multi-task learning weights, no use for single model, such as MCNN, VGG, VGG_DECODER, Res50, CSRNet, and so on
 
@@ -47,7 +48,7 @@ __C.EXP_NAME = now \
              + '_' + __C.NET \
              + '_' + str(__C.LR)
 
-__C.EXP_PATH = './exp' # the path of logs, checkpoints, and current codes
+__C.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp' # the path of logs, checkpoints, and current codes
 
 
 #------------------------------VAL------------------------

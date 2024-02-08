@@ -22,6 +22,8 @@ with_gt = False
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 exp_name = '../SHHB_results'
 if not os.path.exists(exp_name):
     os.mkdir(exp_name)
@@ -44,9 +46,9 @@ restore = standard_transforms.Compose([
 ])
 pil_to_tensor = standard_transforms.ToTensor()
 
-dataRoot = '../testbilder/'
+dataRoot = 'datasets/ProcessedData/shanghaitech_part_B/test'
 
-model_path = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
+model_path = 'exp/01-10_15-29_SHHB_MCNN_1e-05/all_ep_1_mae_71.0_mse_96.0.pth'
 
 
 def main():

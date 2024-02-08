@@ -44,5 +44,5 @@ class MCNN(nn.Module):
         x3 = self.branch3(im_data)
         x = torch.cat((x1,x2,x3),1)
         x = self.fuse(x)
-        x = F.upsample(x,scale_factor=4)
+        x = F.interpolate(x,scale_factor=4)
         return x

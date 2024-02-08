@@ -11,13 +11,10 @@ import pandas as pd
 
 from config import cfg
 
-class SHHB(data.Dataset):
+class SHHM(data.Dataset):
     def __init__(self, data_path, mode, main_transform=None, img_transform=None, gt_transform=None):
         self.img_path = data_path + '/img'
         self.gt_path = data_path + '/den'
-        print(self.img_path)
-        print(os.path.dirname(os.path.realpath(__file__)))
-        print(os.listdir(self.img_path))
         self.data_files = [filename for filename in os.listdir(self.img_path) \
                            if os.path.isfile(os.path.join(self.img_path,filename))]
         self.num_samples = len(self.data_files) 
@@ -29,9 +26,9 @@ class SHHB(data.Dataset):
         fname = self.data_files[index]
         img, den = self.read_image_and_gt(fname)      
         if self.main_transform is not None:
-            img, den = self.main_transform(img,den)
+            img, den = self.main_transform(img,den) 
         if self.img_transform is not None:
-            img = self.img_transform(img)
+            img = self.img_transform(img)         
         if self.gt_transform is not None:
             den = self.gt_transform(den)               
         return img, den
@@ -44,7 +41,7 @@ class SHHB(data.Dataset):
         if img.mode == 'L':
             img = img.convert('RGB')
 
-        den = np.loadtxt(os.path.join(self.gt_path,os.path.splitext(fname)[0] + '.csv'), delimiter = ",", dtype = float)
+        den = np.loadtxt(os.path.join(self.gt_path, os.path.splitext(fname)[0] + '.csv'), delimiter=",", dtype=float)
 
         den = den.astype(np.float32, copy=False)
         den = Image.fromarray(den)

@@ -37,6 +37,6 @@ class AlexNet(nn.Module):
         x = self.layer2plus_to_5(x)  
         x = self.de_pred(x)
 
-        x = F.upsample(x,scale_factor=16)
+        x = F.interpolate(x,scale_factor=16)
 
         return x
