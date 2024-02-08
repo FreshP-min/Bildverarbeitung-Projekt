@@ -5,7 +5,7 @@
 - max. epochs=1 (config.py)
 - reduzierter Trainingsdatensatz (train_simple) mit 8 Bildern
 - reduzierter Testdatensatz (test_simple) mit 4 Bildern
-- DataLoader: num_workers=0 (before: 8), batch_size=2 (before: 6)
+- DataLoader: num_workers=0 (before: 8), batch_size=2 (before: 6) (SHHB/loading_data.py)
 
 - aus misc.utils.logger copy_current_env rausgenommen --> sonst wird komplettes Framework inkl. Daten kopiert
 - in trainer.py: self.net.forward instead of self.net()
