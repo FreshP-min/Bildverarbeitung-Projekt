@@ -1,15 +1,20 @@
 import customtkinter as ctk
 from customtkinter import filedialog
 from PIL import Image
-from test import apply_counting
+from test import load_model, apply_counting
 
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("green")
 
 model_path_1 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
-model_path_2 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
-model_path_3 = 'Trained_models/01-24_14-13_SHHB_Res50_1e-05/best_model.pth'
-model_path_4 = 'Trained_models/01-24_14-13_SHHB_Res50_1e-05/best_model.pth'
+model_path_2 = 'Trained_models/01-24_14-13_SHHB_Res50_1e-05/best_model.pth'
+model_path_3 = 'Trained_models/02-05_18-46_SHHA_Res50_1e-05/best_model.pth'
+model_path_4 = 'Trained_models/02-06_15-12_SHHM_Res50_1e-05/best_model.pth'
+
+net1 = load_model(model_path_1)
+net2 = load_model(model_path_2)
+net3 = load_model(model_path_3)
+net4 = load_model(model_path_4)
 
 class App(ctk.CTk):
     def __init__(self):
@@ -105,30 +110,30 @@ class App(ctk.CTk):
         self.selected_img = img
 
     def apply_model(self):
-        img_1, pred_1 = apply_counting(self.selected_img, model_path_1)
-        img_2, pred_2 = apply_counting(self.selected_img, model_path_2)
-        img_3, pred_3 = apply_counting(self.selected_img, model_path_3)
-        img_4, pred_4 = apply_counting(self.selected_img, model_path_4)
+        img_1, pred_1 = apply_counting(self.selected_img, net1)
+        img_2, pred_2 = apply_counting(self.selected_img, net2)
+        img_3, pred_3 = apply_counting(self.selected_img, net3)
+        img_4, pred_4 = apply_counting(self.selected_img, net4)
 
         self.image_1.configure(light_image=img_1, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_1.configure(image=self.image_1)
-        self.text_pred_1.configure(text=f"prediction Res50 - SHHA: \n{pred_1} people")
+        self.text_pred_1.configure(text=f"prediction Res50 - SHHB v1: \n{pred_1} people")
 
         self.image_2.configure(light_image=img_2, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_2.configure(image=self.image_2)
-        self.text_pred_2.configure(text=f"prediction Res50 - SHHB: \n{pred_2} people")
+        self.text_pred_2.configure(text=f"prediction Res50 - SHHB v2: \n{pred_2} people")
 
         self.image_3.configure(light_image=img_3, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_3.configure(image=self.image_3)
-        self.text_pred_3.configure(text=f"prediction model 3: \n{pred_3} people")
+        self.text_pred_3.configure(text=f"prediction Res50 - SHHA: \n{pred_3} people")
 
         self.image_4.configure(light_image=img_4, size=(self.selected_img.width * self.factor_small,
                                                         self.selected_img.height * self.factor_small))
         self.image_label_4.configure(image=self.image_4)
-        self.text_pred_4.configure(text=f"prediction model 4: \n{pred_4} people")
+        self.text_pred_4.configure(text=f"prediction Res50 - SHHM: \n{pred_4} people")
 
 
 

@@ -22,8 +22,6 @@ with_gt = False
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 exp_name = '../SHHB_results'
 if not os.path.exists(exp_name):
     os.mkdir(exp_name)
@@ -36,15 +34,11 @@ if with_gt:
         os.mkdir(exp_name + '/gt')
 
 mean_std = ([0.452016860247, 0.447249650955, 0.431981861591], [0.23242045939, 0.224925786257, 0.221840232611])
+
 img_transform = standard_transforms.Compose([
     standard_transforms.ToTensor(),
     standard_transforms.Normalize(*mean_std)
 ])
-restore = standard_transforms.Compose([
-    own_transforms.DeNormalize(*mean_std),
-    standard_transforms.ToPILImage()
-])
-pil_to_tensor = standard_transforms.ToTensor()
 
 dataRoot = 'datasets/ProcessedData/shanghaitech_part_B/test'
 
@@ -99,9 +93,9 @@ def test(file_list, model_path):
 
         with torch.no_grad():
             if cfg.EXISTS_GPU:
-                img = Variable(img[None, :, :, :]).cuda()
+                img = img[None, :, :, :].cuda()
             else:
-                img = Variable(img[None, :, :, :])
+                img = img[None, :, :, :]
             pred_map = net.test_forward(img)
 
         sio.savemat(exp_name + '/pred/' + filename_no_ext + '.mat',
@@ -168,25 +162,33 @@ def test(file_list, model_path):
 
         # sio.savemat(exp_name+'/'+filename_no_ext+'_diff.mat',{'ProcessedData':diff})
 
-def apply_counting(img, model):
+def load_model(path):
     net = CrowdCounter(cfg.GPU_ID, cfg.NET)
     if (cfg.EXISTS_GPU):
-        net.load_state_dict(torch.load(model))
+        net.load_state_dict(torch.load(path))
+        net.cuda()
     else:
-        net.load_state_dict(torch.load(model, map_location=torch.device('cpu')))
-    net.cuda()
+        net.load_state_dict(torch.load(path, map_location=torch.device('cpu')))
     net.eval()
+
+    print('model loaded')
+    return net
+
+def apply_counting(img, net):
 
     if img.mode == 'L':
         img = img.convert('RGB')
 
+    old_size = (img.size[0], img.size[1])
+    new_size = (448, 448)
+    img = img.resize((new_size[0], new_size[1]), Image.BILINEAR)
     img = img_transform(img)
 
     with torch.no_grad():
         if cfg.EXISTS_GPU:
-            img = Variable(img[None, :, :, :]).cuda()
+            img = img[None, :, :, :].cuda()
         else:
-            img = Variable(img[None, :, :, :])
+            img = img[None, :, :, :]
         pred_map = net.test_forward(img)
 
     pred_map = pred_map.cpu().data.numpy()[0, 0, :, :]
@@ -198,10 +200,11 @@ def apply_counting(img, model):
     plt.imshow(pred_map)
  #   plt.show()
     pred_map_pil = Image.fromarray(np.uint8(matplotlib.cm.gist_earth(pred_map) * 255))
+    pred_map_pil = pred_map_pil.resize((old_size[0], old_size[1]), Image.BILINEAR)
 
     return pred_map_pil, pred
 
 if __name__ == '__main__':
     img = Image.open("datasets/ProcessedData/shanghaitech_part_B/test_after_training/img/14.jpg")
-    #apply_counting(img)
-    main()
+    apply_counting(img)
+    #main()
