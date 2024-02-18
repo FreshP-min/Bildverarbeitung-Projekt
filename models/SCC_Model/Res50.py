@@ -12,7 +12,7 @@ import pdb
 # model_path = '../PyTorch_Pretrained/resnet50-19c8e357.pth'
 
 class Res50(nn.Module):
-    def __init__(self,  pretrained=False):
+    def __init__(self,  weights=None):
         super(Res50, self).__init__()
 
         self.de_pred = nn.Sequential(Conv2d(1024, 128, 1, same_padding=True, NL='relu'),
@@ -20,7 +20,7 @@ class Res50(nn.Module):
 
         initialize_weights(self.modules())
 
-        res = models.resnet50(pretrained=pretrained)
+        res = models.resnet50(weights=weights)
         # pre_wts = torch.load(model_path)
         # res.load_state_dict(pre_wts)
         self.frontend = nn.Sequential(
