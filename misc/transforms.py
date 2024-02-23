@@ -5,6 +5,7 @@ from PIL import Image, ImageOps, ImageFilter
 from config import cfg
 import torch
 import torchvision.transforms as transforms
+import Image_Preprocessing.Prepocessing as pre
 # ===============================img tranforms============================
 
 class Compose(object):
@@ -158,6 +159,8 @@ class GTScaleDown(object):
         img = Image.fromarray(tmp)
         return img
 
+
+# ===============================custom transforms============================
 class ImageManipulations(object):
     def __call__(self, img):
         augmentation = [
@@ -168,3 +171,45 @@ class ImageManipulations(object):
         ]
         augmentation = transforms.Compose(augmentation)
         return augmentation(img)
+
+class Blur(object):
+    def __init__(self, p=0.5):
+        self.p = p
+    def __call__(self, img):
+        if random.random() < self.p:
+            P = pre.Preprocessing()
+            return P.blur_image(img)
+        else:
+            return img
+
+
+class Noise(object):
+    def __init__(self, p=0.5):
+        self.p = p
+    def __call__(self, img, mean=0, sigma=20):
+        if random.random() < self.p:
+            P = pre.Preprocessing()
+            return P.add_noise(img, mean, sigma)
+        else:
+            return img
+
+
+class VerticalFlip(object):
+    def __init__(self, p=0.5):
+        self.p = p
+    def __call__(self, img):
+        if random.random() < self.p:
+            P = pre.Preprocessing()
+            return P.vertical_flip(img)
+        else:
+            return img
+
+class Grayscale(object):
+    def __init__(self, p=0.5):
+        self.p = p
+    def __call__(self, img):
+        if random.random() < self.p:
+            P = pre.Preprocessing()
+            return P.grayscale(img)
+        else:
+            return img
