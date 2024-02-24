@@ -5,7 +5,7 @@ from PIL import Image, ImageOps, ImageFilter
 from config import cfg
 import torch
 import torchvision.transforms as transforms
-import Image_Preprocessing.Prepocessing as pre
+import misc.Prepocessing as pre
 # ===============================img tranforms============================
 
 class Compose(object):
@@ -176,19 +176,19 @@ class GTScaleDown(object):
 class ImageManipulations(object):
     def __call__(self, img):
         augmentation = [
-            #transforms.ToPILImage(),
+            transforms.ToPILImage(),
             #transforms.RandomGrayscale(p=0.2),
-            #transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
+            transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
             transforms.ToTensor(),
         ]
         augmentation = transforms.Compose(augmentation)
         return augmentation(img)
 
 class Blur(object):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img):
-        if random.random() < self.p:
+        if np.random.uniform(0,1) < self.p:
             P = pre.Preprocessing()
             return P.blur_image(img)
         else:
@@ -196,10 +196,10 @@ class Blur(object):
 
 
 class Noise(object):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img, mean=0, sigma=20):
-        if random.random() < self.p:
+        if np.random.uniform(0,1) < self.p:
             P = pre.Preprocessing()
             return P.add_noise(img, mean, sigma)
         else:
@@ -207,21 +207,29 @@ class Noise(object):
 
 
 class VerticalFlip(object):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img):
-        if random.random() < self.p:
+        if np.random.uniform(0,1) < self.p:
             P = pre.Preprocessing()
             return P.vertical_flip(img)
         else:
             return img
 
 class Grayscale(object):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.2):
         self.p = p
     def __call__(self, img):
-        if random.random() < self.p:
+        if np.random.uniform(0,1) < self.p:
             P = pre.Preprocessing()
             return P.grayscale(img)
         else:
             return img
+        
+class ToNumpy(object):
+    def __call__(self, img):
+        return np.array(img)
+    
+class ToPil(object):
+    def __call__(self, img):
+        return Image.fromarray(img)

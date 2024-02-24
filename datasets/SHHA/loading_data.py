@@ -92,7 +92,10 @@ def loading_data():
         own_transforms.Resize(cfg_data.TRAIN_SIZE)
     ])
     img_transform = standard_transforms.Compose([
-        standard_transforms.ToTensor(),
+        own_transforms.ToNumpy(),
+        own_transforms.Blur(),
+        own_transforms.Noise(),
+        own_transforms.ImageManipulations(),
         standard_transforms.Normalize(*mean_std)
     ])
     gt_transform = standard_transforms.Compose([
