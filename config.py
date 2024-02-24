@@ -7,7 +7,7 @@ class Config:
     def __init__(self):
         # ------------------------------TRAIN------------------------
         self.SEED = 3035  # random seed, for reproduction
-        self.DATASET = 'SHHB'  # dataset selection: SHHA, SHHB, SHHM
+        self.DATASET = 'SHHM'  # dataset selection: SHHA, SHHB, SHHM
         self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
         self.PRE_GCC = False  # use the pretrained model on GCC dataset
         self.PRE_GCC_MODEL = 'path to model'  # path to model
@@ -18,10 +18,10 @@ class Config:
 
         # learning rate settings
         self.LR = 1e-5  # learning rate
-        self.LR_DECAY = 0.9  # decay rate
-        self.LR_DECAY_START = 50  # when training epoch is more than it, the learning rate will begin to decay
-        self.NUM_EPOCH_LR_DECAY = 50  # decay frequency
-        self.MAX_EPOCH = 500
+        self.LR_DECAY = 0.1  # decay rate
+        self.LR_DECAY_START = 25  # when training epoch is more than it, the learning rate will begin to decay
+        self.NUM_EPOCH_LR_DECAY = 25  # decay frequency
+        self.MAX_EPOCH = 200
 
         # multi-task learning weights, no use for single model
         self.LAMBDA_1 = 1e-4  # SANet:0.001 CMTL 0.0001

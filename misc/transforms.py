@@ -64,6 +64,18 @@ class RandomCrop(object):
         return img.crop((x1, y1, x1 + tw, y1 + th)), mask.crop((x1, y1, x1 + tw, y1 + th))
 
 
+class Resize(object):
+    def __init__(self, size, padding=0):
+        if isinstance(size, numbers.Number):
+            self.size = (int(size), int(size))
+        else:
+            self.size = size
+        self.padding = padding
+
+    def __call__(self, img, mask, dst_size=None):
+        return img.resize(self.size, Image.BILINEAR), mask.resize(self.size, Image.NEAREST)
+
+
 class CenterCrop(object):
     def __init__(self, size):
         if isinstance(size, numbers.Number):
@@ -162,8 +174,8 @@ class ImageManipulations(object):
     def __call__(self, img):
         augmentation = [
             #transforms.ToPILImage(),
-            transforms.RandomGrayscale(p=0.2),
-            transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
+            #transforms.RandomGrayscale(p=0.2),
+            #transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
             transforms.ToTensor(),
         ]
         augmentation = transforms.Compose(augmentation)
