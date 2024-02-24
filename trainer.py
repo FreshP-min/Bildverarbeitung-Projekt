@@ -75,7 +75,7 @@ class Trainer():
             # validation
             if epoch%cfg.VAL_FREQ==0 or epoch>cfg.VAL_DENSE_START:
                 self.timer['val time'].tic()
-                if self.data_mode in ['SHHA', 'SHHB', 'QNRF', 'UCF50']:
+                if self.data_mode in ['SHHA', 'SHHB', 'SHHM']:
                     self.validate_V1()
                 self.timer['val time'].toc(average=False)
                 print( 'val time: {:.2f}s'.format(self.timer['val time'].diff) )

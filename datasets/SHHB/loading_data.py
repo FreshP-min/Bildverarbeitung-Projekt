@@ -10,7 +10,7 @@ def loading_data():
     mean_std = cfg_data.MEAN_STD
     log_para = cfg_data.LOG_PARA
     train_main_transform = own_transforms.Compose([
-        own_transforms.RandomCrop(cfg_data.TRAIN_SIZE),
+        own_transforms.Resize(cfg_data.TRAIN_SIZE),
         own_transforms.RandomHorizontallyFlip()
     ])
     val_main_transform = own_transforms.Compose([
@@ -18,7 +18,12 @@ def loading_data():
     ])
     val_main_transform = None
     img_transform = standard_transforms.Compose([
-        own_transforms.ImageManipulations(),
+        standard_transforms.RandomChoice([
+            own_transforms.Blur(1),
+            own_transforms.Noise(1),
+            own_transforms.VerticalFlip(1)
+            # own_transforms.Grayscale(1)
+        ], p=0.25),
         standard_transforms.Normalize(*mean_std)
     ])
     val_img_transform = standard_transforms.Compose([
