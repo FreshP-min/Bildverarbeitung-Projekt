@@ -7,7 +7,7 @@ class Config:
     def __init__(self):
         # ------------------------------TRAIN------------------------
         self.SEED = 3035  # random seed, for reproduction
-        self.DATASET = 'SHHA'  # dataset selection: SHHA, SHHB, SHHM
+        self.DATASET = 'SHHM'  # dataset selection: SHHA, SHHB, SHHM
         self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
         self.PRE_GCC = False  # use the pretrained model on GCC dataset
         self.PRE_GCC_MODEL = 'path to model'  # path to model
