@@ -5,9 +5,7 @@ from PIL import Image, ImageOps, ImageFilter
 from config import cfg
 import torch
 import torchvision.transforms as transforms
-
-
-import Image_Preprocessing.Preprocessing as pre
+import misc.Prepocessing as pre
 # ===============================img tranforms============================
 
 class Compose(object):
@@ -190,43 +188,43 @@ class Blur(object):
     def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img):
-        if random.random() < self.p:
-            img = np.array(img)
-            return Image.fromarray(pre.blur_image(img))
+        if np.random.uniform(0,1) < self.p:
+            P = pre.Preprocessing()
+            return P.blur_image(img)
         else:
-            return Image.fromarray(img)
+            return img
 
 
 class Noise(object):
     def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img, mean=0, sigma=20):
-        img = np.array(img)
-        if random.random() < self.p:
-            return Image.fromarray(pre.add_noise(img, mean, sigma))
+        if np.random.uniform(0,1) < self.p:
+            P = pre.Preprocessing()
+            return P.add_noise(img, mean, sigma)
         else:
-            return Image.fromarray(img)
+            return img
 
 
 class VerticalFlip(object):
     def __init__(self, p=0.3):
         self.p = p
     def __call__(self, img):
-        img = np.array(img)
-        if random.random() < self.p:
-            return Image.fromarray(pre.vertical_flip(img))
+        if np.random.uniform(0,1) < self.p:
+            P = pre.Preprocessing()
+            return P.vertical_flip(img)
         else:
-            return Image.fromarray(img)
+            return img
 
 class Grayscale(object):
     def __init__(self, p=0.2):
         self.p = p
     def __call__(self, img):
-        img = np.array(img)
-        if random.random() < self.p:
-            return Image.fromarray(pre.convert_to_grayscale(img))
+        if np.random.uniform(0,1) < self.p:
+            P = pre.Preprocessing()
+            return P.grayscale(img)
         else:
-            return Image.fromarray(img)
+            return img
         
 class ToNumpy(object):
     def __call__(self, img):
@@ -235,17 +233,3 @@ class ToNumpy(object):
 class ToPil(object):
     def __call__(self, img):
         return Image.fromarray(img)
-
-# somehow does not work properly
-class OwnRandomCrop(object):
-    def __init__(self, p=0.5):
-        self.p = p
-    def __call__(self, img, den_map, size=64):
-        if random.random() < self.p:
-            img = np.array(img)
-            den_map = np.array(den_map)
-            res = pre.random_crop(img, den_map, size)
-            return Image.fromarray(res[0]), Image.fromarray(res[1])
-        else:
-            return img, den_map
-
