@@ -1,0 +1,148 @@
+import os
+import time
+import torch
+
+# init
+class Config:
+    def __init__(self):
+        # ------------------------------TRAIN------------------------
+        self.SEED = 3035  # random seed, for reproduction
+        self.DATASET = 'SHHB'  # dataset selection: SHHA, SHHB, SHHM
+        self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+        self.PRE_GCC = False  # use the pretrained model on GCC dataset
+        self.PRE_GCC_MODEL = 'path to model'  # path to model
+        self.RESUME = False  # continue training
+        self.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth'
+        self.EXISTS_GPU = True
+        self.GPU_ID = [0] if self.EXISTS_GPU else []  # single gpu: [0], [1] ...; multi gpus: [0,1]
+
+        # learning rate settings
+        self.LR = 1e-5  # learning rate
+        self.LR_DECAY = 0.1  # decay rate
+        self.LR_DECAY_START = 25  # when training epoch is more than it, the learning rate will begin to decay
+        self.NUM_EPOCH_LR_DECAY = 25  # decay frequency
+        self.MAX_EPOCH = 200
+
+        # multi-task learning weights, no use for single model
+        self.LAMBDA_1 = 1e-4  # SANet:0.001 CMTL 0.0001
+
+        # print
+        self.PRINT_FREQ = 10
+
+        now = time.strftime("%m-%d_%H-%M", time.localtime())
+
+        self.EXP_NAME = now \
+                        + '_' + self.DATASET \
+                        + '_' + self.NET \
+                        + '_' + str(self.LR)
+
+        self.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp'  # the path of logs, checkpoints, and current codes
+
+        # ------------------------------VAL------------------------
+        self.VAL_DENSE_START = 50
+        self.VAL_FREQ = 10  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
+
+        # ------------------------------VIS------------------------
+        self.VISIBLE_NUM_IMGS = 1  # must be 1 for training images with different sizes
+
+# Create an instance of the Config class
+cfg = Config()
+
+
+
+===============+++++++++++++++===============
+
+all_ep_1_mae_121.6_mse_154.3
+    [mae 121.61 mse 154.28], [val loss 0.0128]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_11_mae_73.0_mse_112.0
+    [mae 73.01 mse 112.04], [val loss 0.0121]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_21_mae_67.8_mse_103.5
+    [mae 67.78 mse 103.48], [val loss 0.0116]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_41_mae_52.8_mse_85.7
+    [mae 52.79 mse 85.66], [val loss 0.0110]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_51_mae_41.3_mse_67.7
+    [mae 41.32 mse 67.66], [val loss 0.0107]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_52_mae_41.2_mse_65.2
+    [mae 41.23 mse 65.24], [val loss 0.0107]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_54_mae_41.2_mse_62.7
+    [mae 41.16 mse 62.70], [val loss 0.0106]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_55_mae_40.3_mse_65.0
+    [mae 40.31 mse 64.96], [val loss 0.0106]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_58_mae_42.1_mse_62.0
+    [mae 42.07 mse 61.99], [val loss 0.0106]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_63_mae_40.3_mse_60.6
+    [mae 40.30 mse 60.61], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_64_mae_39.6_mse_61.1
+    [mae 39.60 mse 61.11], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_74_mae_39.4_mse_63.4
+    [mae 39.44 mse 63.40], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_75_mae_39.3_mse_62.6
+    [mae 39.34 mse 62.55], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_89_mae_39.2_mse_62.6
+    [mae 39.16 mse 62.65], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_116_mae_41.2_mse_59.7
+    [mae 41.21 mse 59.70], [val loss 0.0105]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_187_mae_39.1_mse_60.2
+    [mae 39.14 mse 60.22], [val loss 0.0105]
+===============+++++++++++++++===============
+
