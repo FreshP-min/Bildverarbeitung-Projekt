@@ -10,7 +10,7 @@ class ConfigSHHB:
         self.LABEL_FACTOR = 1
         self.LOG_PARA = 100.
         self.RESUME_MODEL = '../../models/SCC_Model/Res50.py'  # model path
-        self.TRAIN_BATCH_SIZE = 8  # imgs
+        self.TRAIN_BATCH_SIZE = 4  # imgs
         self.VAL_BATCH_SIZE = 1
 
 # Create an instance of the ConfigSHHB class

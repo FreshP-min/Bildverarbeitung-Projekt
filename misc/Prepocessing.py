@@ -24,7 +24,7 @@ class Preprocessing():
     def add_noise(self, img: np.ndarray, mean: float, sigma: float) -> np.ndarray:
         #height, width = img.shape[0], img.shape[1]
         noise = np.random.normal(mean, sigma*255/3, img.shape)
-        return np.clip(img + noise, 0 , 255)
+        return np.clip(img + noise, 0, 255).astype(np.uint8)
 
 
     def padding(self, img: np.ndarray, kernel_size: int) -> np.ndarray:

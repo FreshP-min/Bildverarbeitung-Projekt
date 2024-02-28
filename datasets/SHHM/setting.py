@@ -15,7 +15,7 @@ __C_SHHM.LABEL_FACTOR = 1
 __C_SHHM.LOG_PARA = 100.
 
 __C_SHHM.RESUME_MODEL = ''#model path
-__C_SHHM.TRAIN_BATCH_SIZE = 8 #imgs
+__C_SHHM.TRAIN_BATCH_SIZE = 4 #imgs
 
 __C_SHHM.VAL_BATCH_SIZE = 1 # must be 1
 

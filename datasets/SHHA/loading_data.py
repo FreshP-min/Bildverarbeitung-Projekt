@@ -92,9 +92,9 @@ def loading_data():
         own_transforms.Resize(cfg_data.STD_SIZE)
     ])
     img_transform = standard_transforms.Compose([
-        # own_transforms.ToNumpy(),
-        # own_transforms.Blur(),
-        # own_transforms.Noise(),
+        own_transforms.ToNumpy(),
+        own_transforms.Blur(),
+        own_transforms.Noise(),
         own_transforms.ImageManipulations(),
         standard_transforms.Normalize(*mean_std)
     ])
