@@ -180,8 +180,14 @@ def apply_counting(img, net):
         img = img.convert('RGB')
 
     old_size = (img.size[0], img.size[1])
-    new_size = (448, 448)
+    if (old_size[0] and old_size[1]) > 1000:
+        new_size = (896, 896)
+    elif (old_size[0] and old_size[1]) > 500:
+        new_size = (448, 448)
+    else:
+        new_size = old_size
     img = img.resize((new_size[0], new_size[1]), Image.BILINEAR)
+
     img = img_transform(img)
 
     with torch.no_grad():
@@ -198,11 +204,12 @@ def apply_counting(img, net):
     print(f"prediction: {pred}")
     pred_map = pred_map / np.max(pred_map + 1e-20)
     plt.imshow(pred_map)
- #   plt.show()
+    #   plt.show()
     pred_map_pil = Image.fromarray(np.uint8(matplotlib.cm.gist_earth(pred_map) * 255))
     pred_map_pil = pred_map_pil.resize((old_size[0], old_size[1]), Image.BILINEAR)
 
     return pred_map_pil, pred
+
 
 if __name__ == '__main__':
     img = Image.open("datasets/ProcessedData/shanghaitech_part_B/test_after_training/img/14.jpg")
