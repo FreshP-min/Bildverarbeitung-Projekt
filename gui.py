@@ -6,10 +6,10 @@ from test import load_model, apply_counting
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("green")
 
-model_path_1 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
-model_path_2 = 'Trained_models/SHHB-No-Augmentations/best_model.pth'
-model_path_3 = 'Trained_models/SHHA-Resize-and-Augmentations/best_model.pth'
-model_path_4 = 'Trained_models/SHHM-Resize-and-Augmentations/best_model.pth'
+model_path_1 = 'Trained_models/SHHB-No-Augmentations/best_model.pth'
+model_path_2 = 'Trained_models/01-23_14-53_SHHB_Res50_1e-05/best_model.pth'
+model_path_3 = 'Trained_models/SHHM-Resize-and-Augmentations/best_model.pth'
+model_path_4 = 'Trained_models/Pretrained-SHHA/best_model.pth'
 
 net1 = load_model(model_path_1)
 net2 = load_model(model_path_2)
@@ -149,19 +149,19 @@ class App(ctk.CTk):
         height_small = self.selected_img.height * self.factor_small
 
         self.image_1.configure(light_image=img_1, size=(width_small, height_small))
-        self.text_pred_1.configure(text=f"Res50 trained on SHHB (pretrained weights): \n{pred_1} people")
+        self.text_pred_1.configure(text=f"Res50 trained on SHHB: \n{pred_1} people")
         self.button_change_1.configure(image=self.image_1, width=width_small, height=height_small)
 
         self.image_2.configure(light_image=img_2, size=(width_small, height_small))
-        self.text_pred_2.configure(text=f"Res50 trained on SHHB: \n{pred_2} people")
+        self.text_pred_2.configure(text=f"Res50 trained on SHHB \n(pretrained weights): \n{pred_2} people")
         self.button_change_2.configure(image=self.image_2, width=width_small, height=height_small)
 
         self.image_3.configure(light_image=img_3, size=(width_small, height_small))
-        self.text_pred_3.configure(text=f"Res50 trained on SHHA: \n{pred_3} people")
+        self.text_pred_3.configure(text=f"Res50 trained on both: \n{pred_3} people")
         self.button_change_3.configure(image=self.image_3, width=width_small, height=height_small)
 
         self.image_4.configure(light_image=img_4, size=(width_small, height_small))
-        self.text_pred_4.configure(text=f"Res50 trained on both: \n{pred_4} people")
+        self.text_pred_4.configure(text=f"Res50 trained on SHHA \n(pretrained weights): \n{pred_4} people")
         self.button_change_4.configure(image=self.image_4, width=width_small, height=height_small)
 
     def change_image(self, num):

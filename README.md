@@ -3,7 +3,7 @@
 ## How to use this code
 
 ### 1. for Training:
-The code is an updated an adjusted version of the Crowd Counting Framework by Gao et al. (https://github.com/gjy3035/C-3-Framework).
+The training part is an updated an adjusted version of the Crowd Counting Framework by Gao et al. (https://github.com/gjy3035/C-3-Framework).
 - requirements: Python 3.X, Pytorch 2.0, other libs in requirements.txt
 - set variables in config.py: dataset (SHHA, SHHB or SHHM), exp path, training with or without GPU support, other hyperparameters
 - in datasets/SHHX/setting.py set path to data with labels
