@@ -18,9 +18,9 @@ def loading_data():
     ])
     val_main_transform = None
     img_transform = standard_transforms.Compose([
-        own_transforms.ToNumpy(),
-        own_transforms.Blur(),
-        own_transforms.Noise(),
+        # own_transforms.ToNumpy(),
+        # own_transforms.Blur(),
+        # own_transforms.Noise(),
         own_transforms.ImageManipulations(),
         standard_transforms.Normalize(*mean_std)
     ])
