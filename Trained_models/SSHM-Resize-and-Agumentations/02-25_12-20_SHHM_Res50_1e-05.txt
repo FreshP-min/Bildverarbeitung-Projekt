@@ -1,0 +1,106 @@
+import os
+import time
+import torch
+
+# init
+class Config:
+    def __init__(self):
+        # ------------------------------TRAIN------------------------
+        self.SEED = 3035  # random seed, for reproduction
+        self.DATASET = 'SHHM'  # dataset selection: SHHA, SHHB, SHHM
+        self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+        self.PRE_GCC = False  # use the pretrained model on GCC dataset
+        self.PRE_GCC_MODEL = 'path to model'  # path to model
+        self.RESUME = False  # continue training
+        self.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth'
+        self.EXISTS_GPU = True
+        self.GPU_ID = [0] if self.EXISTS_GPU else []  # single gpu: [0], [1] ...; multi gpus: [0,1]
+
+        # learning rate settings
+        self.LR = 1e-5  # learning rate
+        self.LR_DECAY = 0.1  # decay rate
+        self.LR_DECAY_START = 25  # when training epoch is more than it, the learning rate will begin to decay
+        self.NUM_EPOCH_LR_DECAY = 25  # decay frequency
+        self.MAX_EPOCH = 200
+
+        # multi-task learning weights, no use for single model
+        self.LAMBDA_1 = 1e-4  # SANet:0.001 CMTL 0.0001
+
+        # print
+        self.PRINT_FREQ = 10
+
+        now = time.strftime("%m-%d_%H-%M", time.localtime())
+
+        self.EXP_NAME = now \
+                        + '_' + self.DATASET \
+                        + '_' + self.NET \
+                        + '_' + str(self.LR)
+
+        self.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp'  # the path of logs, checkpoints, and current codes
+
+        # ------------------------------VAL------------------------
+        self.VAL_DENSE_START = 50
+        self.VAL_FREQ = 10  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
+
+        # ------------------------------VIS------------------------
+        self.VISIBLE_NUM_IMGS = 1  # must be 1 for training images with different sizes
+
+# Create an instance of the Config class
+cfg = Config()
+
+
+
+===============+++++++++++++++===============
+
+all_ep_1_mae_108.1_mse_217.1
+    [mae 108.11 mse 217.13], [val loss 0.0306]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_11_mae_86.1_mse_169.5
+    [mae 86.11 mse 169.51], [val loss 0.0277]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_41_mae_90.4_mse_151.2
+    [mae 90.35 mse 151.23], [val loss 0.0260]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_74_mae_88.8_mse_146.1
+    [mae 88.82 mse 146.09], [val loss 0.0251]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_113_mae_84.8_mse_145.3
+    [mae 84.78 mse 145.28], [val loss 0.0252]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_130_mae_84.2_mse_155.9
+    [mae 84.18 mse 155.87], [val loss 0.0254]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_168_mae_83.3_mse_150.8
+    [mae 83.34 mse 150.83], [val loss 0.0258]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_172_mae_82.0_mse_148.4
+    [mae 82.02 mse 148.39], [val loss 0.0259]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_180_mae_85.4_mse_140.5
+    [mae 85.44 mse 140.47], [val loss 0.0246]
+===============+++++++++++++++===============
+

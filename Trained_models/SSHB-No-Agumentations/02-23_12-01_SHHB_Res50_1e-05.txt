@@ -1,0 +1,124 @@
+import os
+import time
+import torch
+
+# init
+class Config:
+    def __init__(self):
+        # ------------------------------TRAIN------------------------
+        self.SEED = 3035  # random seed, for reproduction
+        self.DATASET = 'SHHB'  # dataset selection: SHHA, SHHB, SHHM
+        self.NET = 'Res50'  # net selection: MCNN, AlexNet, VGG, VGG_DECODER, Res50, CSRNet, SANet, Res101_SFCN
+        self.PRE_GCC = False  # use the pretrained model on GCC dataset
+        self.PRE_GCC_MODEL = 'path to model'  # path to model
+        self.RESUME = False  # continue training
+        self.RESUME_PATH = './exp/SHHB_ResNet/latest_state.pth'
+        self.EXISTS_GPU = True
+        self.GPU_ID = [0] if self.EXISTS_GPU else []  # single gpu: [0], [1] ...; multi gpus: [0,1]
+
+        # learning rate settings
+        self.LR = 1e-5  # learning rate
+        self.LR_DECAY = 0.1  # decay rate
+        self.LR_DECAY_START = 25  # when training epoch is more than it, the learning rate will begin to decay
+        self.NUM_EPOCH_LR_DECAY = 25  # decay frequency
+        self.MAX_EPOCH = 200
+
+        # multi-task learning weights, no use for single model
+        self.LAMBDA_1 = 1e-4  # SANet:0.001 CMTL 0.0001
+
+        # print
+        self.PRINT_FREQ = 10
+
+        now = time.strftime("%m-%d_%H-%M", time.localtime())
+
+        self.EXP_NAME = now \
+                        + '_' + self.DATASET \
+                        + '_' + self.NET \
+                        + '_' + str(self.LR)
+
+        self.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp'  # the path of logs, checkpoints, and current codes
+
+        # ------------------------------VAL------------------------
+        self.VAL_DENSE_START = 50
+        self.VAL_FREQ = 10  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
+
+        # ------------------------------VIS------------------------
+        self.VISIBLE_NUM_IMGS = 1  # must be 1 for training images with different sizes
+
+# Create an instance of the Config class
+cfg = Config()
+
+
+
+===============+++++++++++++++===============
+
+all_ep_1_mae_58.7_mse_92.4
+    [mae 58.68 mse 92.40], [val loss 0.0124]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_21_mae_49.9_mse_64.8
+    [mae 49.90 mse 64.84], [val loss 0.0111]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_51_mae_30.1_mse_45.4
+    [mae 30.10 mse 45.44], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_53_mae_29.9_mse_46.9
+    [mae 29.85 mse 46.95], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_55_mae_30.4_mse_45.2
+    [mae 30.41 mse 45.21], [val loss 0.0102]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_57_mae_29.4_mse_45.7
+    [mae 29.37 mse 45.66], [val loss 0.0100]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_67_mae_29.3_mse_46.1
+    [mae 29.27 mse 46.06], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_69_mae_29.3_mse_45.2
+    [mae 29.34 mse 45.20], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_92_mae_28.9_mse_45.7
+    [mae 28.90 mse 45.69], [val loss 0.0100]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_123_mae_30.2_mse_45.1
+    [mae 30.24 mse 45.11], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_140_mae_30.4_mse_45.1
+    [mae 30.38 mse 45.06], [val loss 0.0101]
+===============+++++++++++++++===============
+
+===============+++++++++++++++===============
+
+all_ep_170_mae_29.8_mse_45.0
+    [mae 29.79 mse 45.00], [val loss 0.0101]
+===============+++++++++++++++===============
+
