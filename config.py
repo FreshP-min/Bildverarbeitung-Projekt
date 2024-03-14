@@ -39,8 +39,8 @@ class Config:
         self.EXP_PATH = '/graphics/scratch2/students/langstei/train_logs/exp'  # the path of logs, checkpoints, and current codes
 
         # ------------------------------VAL------------------------
-        self.VAL_DENSE_START = 150
-        self.VAL_FREQ = 10  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
+        self.VAL_DENSE_START = 200
+        self.VAL_FREQ = 5  # Before self.VAL_DENSE_START epoches, the freq is set as self.VAL_FREQ
 
         # ------------------------------VIS------------------------
         self.VISIBLE_NUM_IMGS = 1  # must be 1 for training images with different sizes

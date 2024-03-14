@@ -12,9 +12,8 @@ import pdb
 # model_path = '../PyTorch_Pretrained/resnet50-19c8e357.pth'
 
 class Res50(nn.Module):
-    def __init__(self,  pretrained=True):
+    def __init__(self,  pretrained=False):
         super(Res50, self).__init__()
-
         self.de_pred = nn.Sequential(Conv2d(1024, 128, 1, same_padding=True, NL='relu'),
                                      Conv2d(128, 1, 1, same_padding=True, NL='relu'))
 
@@ -28,9 +27,6 @@ class Res50(nn.Module):
         )
         self.own_reslayer_3 = make_res_layer(Bottleneck, 256, 6, stride=1)        
         self.own_reslayer_3.load_state_dict(res.layer3.state_dict())
-
-        
-
 
     def forward(self,x):
 

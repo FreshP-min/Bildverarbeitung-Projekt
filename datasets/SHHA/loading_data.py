@@ -85,16 +85,16 @@ def loading_data():
     log_para = cfg_data.LOG_PARA
     factor = cfg_data.LABEL_FACTOR
     train_main_transform = own_transforms.Compose([
-        own_transforms.RandomCrop(cfg_data.TRAIN_SIZE),
+        own_transforms.Resize(cfg_data.STD_SIZE),
     	own_transforms.RandomHorizontallyFlip()
     ])
     val_main_transform = own_transforms.Compose([
         own_transforms.Resize(cfg_data.STD_SIZE)
     ])
     img_transform = standard_transforms.Compose([
-        own_transforms.ToNumpy(),
-        own_transforms.Blur(),
-        own_transforms.Noise(),
+        # own_transforms.ToNumpy(),
+        # own_transforms.Blur(),
+        # own_transforms.Noise(),
         own_transforms.ImageManipulations(),
         standard_transforms.Normalize(*mean_std)
     ])

@@ -109,7 +109,7 @@ class Trainer():
                 print( '        [cnt: gt: %.1f pred: %.2f]' % (gt_map[0].sum().data/self.cfg_data.LOG_PARA, pred_map[0].sum().data/self.cfg_data.LOG_PARA) )           
 
 
-    def validate_V1(self):# validate_V1 for SHHA, SHHB, UCF-QNRF, UCF50
+    def validate_V1(self):# validate_V1 for SHHA, SHHB,SHHM
 
         self.net.eval()
         

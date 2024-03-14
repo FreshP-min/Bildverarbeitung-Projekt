@@ -176,9 +176,9 @@ class GTScaleDown(object):
 class ImageManipulations(object):
     def __call__(self, img):
         augmentation = [
-            transforms.ToPILImage(),
-            transforms.RandomGrayscale(p=0.2),
-            transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
+            # transforms.ToPILImage(),
+            # transforms.RandomGrayscale(p=0.2),
+            # transforms.ColorJitter(0.3, 0.3, 0.3, 0.3),
             transforms.ToTensor(),
         ]
         augmentation = transforms.Compose(augmentation)
