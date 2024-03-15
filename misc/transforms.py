@@ -5,7 +5,7 @@ from PIL import Image, ImageOps, ImageFilter
 from config import cfg
 import torch
 import torchvision.transforms as transforms
-import misc.Prepocessing as pre
+import misc.Preprocessing as pre
 # ===============================img tranforms============================
 
 class Compose(object):
